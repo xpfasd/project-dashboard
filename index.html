@@ -417,13 +417,14 @@
       }
     ];
     
+    // 每2天一个项目，12天完成一轮
     const schedule = [
-      { week: 1, project: "symbol" },
-      { week: 2, project: "DaysCalculator" },
-      { week: 3, project: "v0-clicker" },
-      { week: 4, project: "GlobalLinguaHub" },
-      { week: 5, project: "crazychicken3d" },
-      { week: 6, project: "Scrandle" }
+      { day: "Day 1-2", project: "symbol", dates: "02/14-02/15" },
+      { day: "Day 3-4", project: "DaysCalculator", dates: "02/16-02/17" },
+      { day: "Day 5-6", project: "v0-clicker", dates: "02/18-02/19" },
+      { day: "Day 7-8", project: "GlobalLinguaHub", dates: "02/20-02/21" },
+      { day: "Day 9-10", project: "crazychicken3d", dates: "02/22-02/23" },
+      { day: "Day 11-12", project: "Scrandle", dates: "02/24-02/25" }
     ];
     
     function renderProjects() {
@@ -474,8 +475,8 @@
       const list = document.getElementById('scheduleList');
       list.innerHTML = schedule.map(s => `
         <div class="schedule-item">
-          <div class="schedule-week">W${s.week}</div>
-          <div class="schedule-project">${s.project}</div>
+          <div class="schedule-week">${s.day}</div>
+          <div class="schedule-project">${s.project} <span style="color:#666;font-size:0.75rem">(${s.dates})</span></div>
         </div>
       `).join('');
     }
