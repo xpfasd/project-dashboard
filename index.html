@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目进度面板</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      color: #888;
+      font-size: 0.9rem;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #00d9ff;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 217, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    
+    .project-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .project-desc {
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .status.pending {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+    
+    .status.in-progress {
+      background: rgba(0, 217, 255, 0.2);
+      color: #00d9ff;
+    }
+    
+    .status.completed {
+      background: rgba(0, 255, 136, 0.2);
+      color: #00ff88;
+    }
+    
+    .progress-section {
+      margin-top: 16px;
+    }
+    
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    
+    .project-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .project-link {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      text-decoration: none;
+      color: #888;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    
+    .project-link:hover {
+      background: rgba(0, 217, 255, 0.1);
+      color: #00d9ff;
+    }
+    
+    .schedule {
+      margin-top: 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    
+    .schedule h2 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: #00d9ff;
+    }
+    
+    .schedule-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+    }
+    
+    .schedule-week {
+      width: 24px;
+      height: 24px;
+      background: rgba(0, 217, 255, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #00d9ff;
+    }
+    
+    .schedule-project {
+      font-size: 0.9rem;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #444;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚀 项目进度面板</h1>
+      <p class="subtitle">SEO 页面开发进度追踪</p>
+    </header>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="totalProjects">0</div>
+        <div class="stat-label">项目总数</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="totalPages">0</div>
+        <div class="stat-label">SEO 页面</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="completedPages">0</div>
+        <div class="stat-label">已完成</div>
+      </div>
+    </div>
+    
+    <div class="projects-grid" id="projectsGrid"></div>
+    
+    <div class="schedule">
+      <h2>📅 开发计划</h2>
+      <div class="schedule-list" id="scheduleList"></div>
+    </div>
+    
+    <footer>
+      最后更新: <span id="lastUpdate"></span>
+    </footer>
+  </div>
+  
+  <script>
+    const projects = [
+      {
+        name: "symbol",
+        desc: "符号复制网站 - 动物、食物、手势等符号",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/symbol",
+        site: "https://www.symbolcopyandpaste.org"
+      },
+      {
+        name: "DaysCalculator",
+        desc: "日期计算器 - 计算两个日期间的天数差",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/DaysCalculator"
+      },
+      {
+        name: "v0-clicker",
+        desc: "键盘点击训练工具",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/v0-clicker"
+      },
+      {
+        name: "GlobalLinguaHub",
+        desc: "语言学习工具",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/GlobalLinguaHub"
+      },
+      {
+        name: "crazychicken3d",
+        desc: "3D 小游戏",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/crazychicken3d"
+      },
+      {
+        name: "Scrandle",
+        desc: "(待开发)",
+        status: "pending",
+        seoTarget: 3,
+        seoDone: 0,
+        github: "xpfasd/Scrandle"
+      }
+    ];
+    
+    const schedule = [
+      { week: 1, project: "symbol" },
+      { week: 2, project: "DaysCalculator" },
+      { week: 3, project: "v0-clicker" },
+      { week: 4, project: "GlobalLinguaHub" },
+      { week: 5, project: "crazychicken3d" },
+      { week: 6, project: "Scrandle" }
+    ];
+    
+    function renderProjects() {
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = projects.map(p => {
+        const progress = p.seoTarget > 0 ? (p.seoDone / p.seoTarget) * 100 : 0;
+        return `
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-name">${p.name}</div>
+              <span class="status ${p.status}">${p.status === 'pending' ? '待开始' : p.status === 'in-progress' ? '进行中' : '已完成'}</span>
+            </div>
+            <div class="project-desc">${p.desc}</div>
+            <div class="progress-section">
+              <div class="progress-header">
+                <span>SEO 页面</span>
+                <span>${p.seoDone} / ${p.seoTarget}</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${progress}%"></div>
+              </div>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/${p.github}" target="_blank" class="project-link">GitHub</a>
+              ${p.site ? `<a href="${p.site}" target="_blank" class="project-link">站点</a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Update stats
+      document.getElementById('totalProjects').textContent = projects.length;
+      document.getElementById('totalPages').textContent = projects.reduce((a, b) => a + b.seoTarget, 0);
+      document.getElementById('completedPages').textContent = projects.reduce((a, b) => a + b.seoDone, 0);
+    }
+    
+    function renderSchedule() {
+      const list = document.getElementById('scheduleList');
+      list.innerHTML = schedule.map(s => `
+        <div class="schedule-item">
+          <div class="schedule-week">W${s.week}</div>
+          <div class="schedule-project">${s.project}</div>
+        </div>
+      `).join('');
+    }
+    
+    // Render
+    renderProjects();
+    renderSchedule();
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN');
+  </script>
+</body>
+</html>
