@@ -66,9 +66,15 @@
       margin-top: 4px;
     }
     
+    .section-title {
+      font-size: 1.3rem;
+      margin: 30px 0 16px;
+      color: #00d9ff;
+    }
+    
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 20px;
     }
     
@@ -90,17 +96,17 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     
     .project-name {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 600;
     }
     
     .project-desc {
-      color: #888;
-      font-size: 0.85rem;
+      color: #aaa;
+      font-size: 0.9rem;
       margin-bottom: 16px;
       line-height: 1.5;
     }
@@ -141,16 +147,16 @@
     }
     
     .progress-bar {
-      height: 6px;
+      height: 8px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
+      border-radius: 4px;
       overflow: hidden;
     }
     
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #00d9ff, #00ff88);
-      border-radius: 3px;
+      border-radius: 4px;
       transition: width 0.5s ease;
     }
     
@@ -163,18 +169,58 @@
     .project-link {
       flex: 1;
       text-align: center;
-      padding: 8px 12px;
+      padding: 10px 16px;
       background: rgba(255, 255, 255, 0.05);
       border-radius: 8px;
       text-decoration: none;
       color: #888;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       transition: all 0.2s;
     }
     
     .project-link:hover {
-      background: rgba(0, 217, 255, 0.1);
+      background: rgba(0, 217, 255, 0.15);
       color: #00d9ff;
+    }
+    
+    .plan-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .plan-title {
+      font-size: 0.85rem;
+      color: #00ff88;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .plan-list {
+      list-style: none;
+    }
+    
+    .plan-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.8rem;
+      color: #888;
+    }
+    
+    .plan-item input {
+      margin-top: 3px;
+    }
+    
+    .plan-item.checked {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    
+    .plan-item label {
+      flex: 1;
+      cursor: pointer;
     }
     
     .schedule {
@@ -206,8 +252,8 @@
     }
     
     .schedule-week {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       background: rgba(0, 217, 255, 0.2);
       border-radius: 6px;
       display: flex;
@@ -228,6 +274,18 @@
       color: #444;
       font-size: 0.8rem;
     }
+    
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        gap: 20px;
+      }
+      .stat-value {
+        font-size: 1.8rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -244,7 +302,7 @@
       </div>
       <div class="stat">
         <div class="stat-value" id="totalPages">0</div>
-        <div class="stat-label">SEO 页面</div>
+        <div class="stat-label">SEO 目标</div>
       </div>
       <div class="stat">
         <div class="stat-value" id="completedPages">0</div>
@@ -252,6 +310,7 @@
       </div>
     </div>
     
+    <h2 class="section-title">📦 项目列表</h2>
     <div class="projects-grid" id="projectsGrid"></div>
     
     <div class="schedule">
@@ -268,12 +327,18 @@
     const projects = [
       {
         name: "symbol",
-        desc: "符号复制网站 - 动物、食物、手势等符号",
+        desc: "符号复制网站 - 动物、食物、手势等特殊符号集合",
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
         github: "xpfasd/symbol",
-        site: "https://www.symbolcopyandpaste.org"
+        site: "https://www.symbolcopyandpaste.org",
+        plan: [
+          "分析现有页面结构 (animals, food, gestures 等)",
+          "研究 SEO 关键词 (symbol copy, emoji meanings)",
+          "为每个分类创建一个 SEO 页面",
+          "提交 sitemap 到 Google"
+        ]
       },
       {
         name: "DaysCalculator",
@@ -281,15 +346,29 @@
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
-        github: "xpfasd/DaysCalculator"
+        github: "xpfasd/DaysCalculator",
+        site: null,
+        plan: [
+          "研究日期计算相关 SEO 关键词",
+          "创建 '天数计算器' 页面",
+          "创建 '日期相差天数' 页面",
+          "添加结构化数据 (Schema.org)"
+        ]
       },
       {
         name: "v0-clicker",
-        desc: "键盘点击训练工具",
+        desc: "键盘点击训练工具 - 提升打字速度的游戏",
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
-        github: "xpfasd/v0-clicker"
+        github: "xpfasd/v0-clicker",
+        site: null,
+        plan: [
+          "研究打字/键盘相关 SEO 关键词",
+          "创建 '键盘点击训练' 页面",
+          "创建 '打字速度测试' 页面",
+          "添加游戏评分分享功能"
+        ]
       },
       {
         name: "GlobalLinguaHub",
@@ -297,15 +376,29 @@
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
-        github: "xpfasd/GlobalLinguaHub"
+        github: "xpfasd/GlobalLinguaHub",
+        site: null,
+        plan: [
+          "研究 Google CLI 相关 SEO 关键词",
+          "创建 'Google CLI 教程' 页面",
+          "创建 'gcloud 命令教程' 页面",
+          "整理常见用例案例"
+        ]
       },
       {
         name: "crazychicken3d",
-        desc: "3D 小游戏",
+        desc: "3D 小游戏 - 疯狂小鸡主题",
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
-        github: "xpfasd/crazychicken3d"
+        github: "xpfasd/crazychicken3d",
+        site: null,
+        plan: [
+          "研究 3D 游戏相关 SEO 关键词",
+          "创建游戏介绍/玩法页面",
+          "创建 '在线 3D 小游戏' 页面",
+          "添加游戏截图和视频"
+        ]
       },
       {
         name: "Scrandle",
@@ -313,7 +406,14 @@
         status: "pending",
         seoTarget: 3,
         seoDone: 0,
-        github: "xpfasd/Scrandle"
+        github: "xpfasd/Scrandle",
+        site: null,
+        plan: [
+          "确定项目定位",
+          "研究相关 SEO 关键词",
+          "规划页面结构",
+          "开始开发"
+        ]
       }
     ];
     
@@ -350,11 +450,21 @@
               <a href="https://github.com/${p.github}" target="_blank" class="project-link">GitHub</a>
               ${p.site ? `<a href="${p.site}" target="_blank" class="project-link">站点</a>` : ''}
             </div>
+            <div class="plan-section">
+              <div class="plan-title">📋 开发计划</div>
+              <ul class="plan-list">
+                ${p.plan.map((item, i) => `
+                  <li class="plan-item">
+                    <input type="checkbox" id="${p.name}-${i}" ${i < p.seoDone ? 'checked' : ''}>
+                    <label for="${p.name}-${i}">${item}</label>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
           </div>
         `;
       }).join('');
       
-      // Update stats
       document.getElementById('totalProjects').textContent = projects.length;
       document.getElementById('totalPages').textContent = projects.reduce((a, b) => a + b.seoTarget, 0);
       document.getElementById('completedPages').textContent = projects.reduce((a, b) => a + b.seoDone, 0);
@@ -370,7 +480,6 @@
       `).join('');
     }
     
-    // Render
     renderProjects();
     renderSchedule();
     document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN');
