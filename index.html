@@ -251,6 +251,27 @@
       border-radius: 8px;
     }
     
+    .schedule-row {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .schedule-day {
+      min-width: 80px;
+      font-weight: 600;
+      color: #00d9ff;
+    }
+    
+    .schedule-projects {
+      flex: 1;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+    
     .schedule-week {
       width: 28px;
       height: 28px;
@@ -417,14 +438,11 @@
       }
     ];
     
-    // 每2天一个项目，12天完成一轮
+    // 所有项目并行，每2天各更新一次
     const schedule = [
-      { day: "Day 1-2", project: "symbol", dates: "02/14-02/15" },
-      { day: "Day 3-4", project: "DaysCalculator", dates: "02/16-02/17" },
-      { day: "Day 5-6", project: "v0-clicker", dates: "02/18-02/19" },
-      { day: "Day 7-8", project: "GlobalLinguaHub", dates: "02/20-02/21" },
-      { day: "Day 9-10", project: "crazychicken3d", dates: "02/22-02/23" },
-      { day: "Day 11-12", project: "Scrandle", dates: "02/24-02/25" }
+      { day: "Day 1-2", items: ["symbol 📝", "DaysCalculator 📝", "v0-clicker 📝", "GlobalLinguaHub 📝", "crazychicken3d 📝", "Scrandle 📝"] },
+      { day: "Day 3-4", items: ["symbol 📝", "DaysCalculator 📝", "v0-clicker 📝", "GlobalLinguaHub 📝", "crazychicken3d 📝", "Scrandle 📝"] },
+      { day: "Day 5-6", items: ["symbol 📝", "DaysCalculator 📝", "v0-clicker 📝", "GlobalLinguaHub 📝", "crazychicken3d 📝", "Scrandle 📝"] }
     ];
     
     function renderProjects() {
@@ -474,9 +492,9 @@
     function renderSchedule() {
       const list = document.getElementById('scheduleList');
       list.innerHTML = schedule.map(s => `
-        <div class="schedule-item">
-          <div class="schedule-week">${s.day}</div>
-          <div class="schedule-project">${s.project} <span style="color:#666;font-size:0.75rem">(${s.dates})</span></div>
+        <div class="schedule-row">
+          <div class="schedule-day">${s.day}</div>
+          <div class="schedule-projects">${s.items.join(' | ')}</div>
         </div>
       `).join('');
     }
